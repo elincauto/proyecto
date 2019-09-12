@@ -116,6 +116,10 @@ class Conversor(ttk.Frame):
         valor_label=round(float(self.strInQuantity.get()/tasa_conversion*tasa_conversion2,5)
         self.outQuantityLbl.config(text=valor_label)
 
+        #habría que definir también la etiqueta de precio unitario.
+
+        
+
     
 
 

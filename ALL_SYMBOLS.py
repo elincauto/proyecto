@@ -12,7 +12,14 @@ url=url.format(API_KEY)
 response=requests.get(url)
 if response.status_code==200:
     currencies=json.loads(response.text)
-    print(currencies)
+    """ result=[]
+    symbols=currencies['symbols']
+    for symbol in symbols:
+        text="{}-{}".format(symbol,symbols[symbol])
+        result.append(text)
+    print(result) """
+    #print(currencies)
+
 else:
     print('Se ha producido un error en la petición:',response.status_code)
 
