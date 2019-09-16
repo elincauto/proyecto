@@ -21,11 +21,10 @@ class Conversor(ttk.Frame):
         self.strInQuantity.trace('w',self.validarCantidad)#falta definir validar cantidad
         self.strIncurrency=StringVar()
         self.strInQuantity=StringVar()
-
-        #Parte de la izquierda del Frame
-
         self.strInCurrency=StringVar()
         self.strOutCurrency=StringVar()
+
+        #Parte de la izquierda del Frame        
 
         frIncurrency=ttk.Frame(self)
         frIncurrency.pack_propagate(0)
@@ -58,9 +57,23 @@ class Conversor(ttk.Frame):
         self.outQuantityLbl=ttk.Label(frOutCurrency,font=('Times',22,'bold'),anchor=E, width=10)
         self.outQuantityLbl.pack(side=TOP,fill=X,padx=DEFAULTPADDING,pady=DEFAULTPADDING)
 
-        frBotones=ttk.frame(self)
+        lblPU=ttk.Label(frOutCurrency,text="Precio Unitario")
+        self.precioUnitarioLbl=ttk.Label(frOutCurrency, font=('Times',22,'bold'),anchor=E,width=10)
+        valor_preciounitario=tasa_conversion
+        self.precioUnitarioLbl.config(text=valor_preciounitario)
+
+
+        frBotones=ttk.Frame(self)
+
+        self.boton1 = ttk.Button(self.frBotones, text="Aceptar",command=self.aceptar)
+        self.boton2 = ttk.Button(self.frBotones, text="Cancelar",command=quit)
+
+
 
         #esto nos queda pendiente hacer los botones de aceptar y rechazar
+
+    def aceptar(self):
+        
 
     def validarCantidad(self,*args):
         try:
@@ -99,71 +112,40 @@ class Conversor(ttk.Frame):
         except:
             self.lblErrorMessages.config(text=e.cause)
 
-    def showConversionRate(self,textdata,**args):
-        data=json.loads(textdata)
-        if data['succes']:
-            tasa_conversion=data['price']
+    def showConversionRate(self,textdata,**args):        
+        if response.status_code==200:
+            currencies=json.loads(textdata)
+            tasa_conversion=currencies['data']['quote'][_to]['price']
 
-        self.lblErrorMessages.config(text='')
+            self.lblErrorMessages.config(text='')
 
         else:
-            msgError="{}-{}".format(status['error_code'],data['error_message']
-        
-            prnt(msgError)
+            print('Se ha producido un error en la petición:',response.status_code)
 
+    
             raise APIAccesError(msgError)
 
-        valor_label=round(float(self.strInQuantity.get()/tasa_conversion*tasa_conversion2,5)
-        self.outQuantityLbl.config(text=valor_label)
+            valor_label=round(float(self.strInQuantity.get()*tasa_conversion,5))
+
+            self.outQuantityLbl.config(text=valor_label)
 
         #habría que definir también la etiqueta de precio unitario.
+ 
+    def getCurrencies(self,textdata):
 
-        
+        currencies=json.loads(textdata)
+        result=[]
+        for i in range(0,12):
+            text=currencies['data'][i]['name']
+            result.append(text)
+            print(result)
+        else:
+            print('Se ha producido un error en la petición:',response.status_code)
 
-    
-
-
-
-
-
-
-        
-
-
-
-
-
+        self.inCurrencyCombo.config(values=result)
+        self.outCurrencyCombo.config(values=result)
 
 
-
-
-        
-
-
-
-        
-
-    
-
-
-
-
-
-
-
-
-
-
-
-
-        
-
-
-
-
-
-
-        
 class MainApp(Tk):
     def __init__(self):
         Tk.__init__(self)
@@ -176,5 +158,5 @@ class MainApp(Tk):
         self.mainloop()
 
 if __name__=='__main__':
-    app=MainApp()
-    app.start()
+    Conversor=MainApp()
+    Conversor.start()

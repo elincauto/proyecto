@@ -14,7 +14,12 @@ outSymbol=input('¿En qué otra moneda?')
 url=config['COINMARKETCAP']['RATE_LATEST_EP']
 url=url.format(inSymbol,outSymbol,API_KEY)
 response=requests.get(url)
+
 if response.status_code==200:
-    print(response.text)
+    currencies=json.loads(response.text)
+    print(currencies)
+    print(currencies['data']['quote'][outSymbol]['price'])
 else:
     print('Se ha producido un error en la petición:',response.status_code)
+
+
