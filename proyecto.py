@@ -150,7 +150,7 @@ class MainApp(Tk):
     def __init__(self):
         Tk.__init__(self)
         self.title("Crypto inversions")
-        self.geometry("864x1536") #ancho x alto
+        self.geometry("1536x864") #ancho x alto
         self.Conversor=Conversor(self)#quiero que ocupe toda mi pantalla y no lo estoy consiguiendo.
         self.Conversor.place(x=0,y=0)
 
