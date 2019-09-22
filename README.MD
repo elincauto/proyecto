@@ -10,3 +10,5 @@ python -m venv <path_nombre_entorno>
 Instalar dependencias con
 ```
 pip install -r requirements.txt
+```
+Sólo valorar los ficheros proyecto.py, RATE_LATEST,ALL_SYMBOLS
